@@ -3,7 +3,8 @@ package routes
 import (
 	"context"
 	"fmt"
-	"github.com/gogoapps/manager"
+
+	"github.com/PawelKowalski99/gogapps/manager"
 )
 
 func InitRoutes(m *manager.Manager) error {
@@ -26,4 +27,3 @@ func pictures(m *manager.Manager) error {
 
 	return nil
 }
-
