@@ -25,6 +25,9 @@ type Picture struct {
 	Explanation string `json:"explanation"`
 	Title       string `json:"title"`
 	Url         string `json:"url"`
+	Hdurl       string `json:"hdurl"`
+	MediaType   string `json:"media_type"`
+	ServiceVersion string `json:"service_version"`
 }
 
 func (p *Picture) Render(w http.ResponseWriter, r *http.Request) error {
