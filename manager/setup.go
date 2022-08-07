@@ -2,31 +2,36 @@ package manager
 
 import (
 	"fmt"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	"github.com/gogoapps/providers"
-	"github.com/sirupsen/logrus"
 	"os"
 	"strconv"
+	"time"
+
+	"github.com/PawelKowalski99/gogapps/providers"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/sirupsen/logrus"
 )
 
 const (
-	PORT=":8080"
+	PORT = "8080"
 
-	EnvPort = "PORT"
+	EnvPort               = "PORT"
 	EnvConcurrentRequests = "CONCURRENT_REQUESTS"
-	EnvApiKey = "API_KEY"
-	EnvProvider = "PROVIDER"
+	EnvApiKey             = "API_KEY"
+	EnvProvider           = "PROVIDER"
 )
 
 type Manager struct {
 	Provider providers.Provider
-	R chi.Router
-	L *logrus.Logger
+	R        chi.Router
+	L        *logrus.Logger
+	Port     string
 }
 
 func NewManager() (*Manager, error) {
-	m := &Manager{}
+	m := &Manager{
+		Port: getEnvOrDefault(EnvPort),
+	}
 
 	for _, f := range []func() error{
 		m.initLogger,
@@ -52,8 +57,8 @@ func (m *Manager) initProvider() error {
 		}
 
 		m.Provider = &providers.Nasa{
-			ApiKey: getEnvOrDefault(EnvApiKey),
-			L: m.L,
+			ApiKey:             getEnvOrDefault(EnvApiKey),
+			L:                  m.L,
 			ConcurrentRequests: concurrentRequests,
 		}
 		return nil
@@ -70,7 +75,7 @@ func (m *Manager) initRouter() error {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-
+	r.Use(middleware.ThrottleBacklog(1, 50, 60*time.Second))
 	m.R = r
 
 	return nil
@@ -87,7 +92,7 @@ func getEnvOrDefault(key string) (value string) {
 	case EnvPort:
 		value = PORT
 		if os.Getenv(EnvPort) != "" {
-			value = ":"+os.Getenv(EnvPort)
+			value = ":" + os.Getenv(EnvPort)
 		}
 	case EnvApiKey:
 		value = providers.ApiKeyDefault
