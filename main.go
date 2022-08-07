@@ -1,28 +1,29 @@
 package main
 
 import (
-	"github.com/gogoapps/manager"
-	"github.com/gogoapps/routes"
-	"github.com/joho/godotenv"
-	"github.com/sirupsen/logrus"
+	"log"
 	"net/http"
+
+	"github.com/PawelKowalski99/gogapps/manager"
+	"github.com/PawelKowalski99/gogapps/routes"
+
+	"github.com/sirupsen/logrus"
 )
 
-
-
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		logrus.Fatalf("could not load .env file")
-	}
-
-	m, err  := manager.NewManager()
+	m, err := manager.NewManager()
 	if err != nil {
 		logrus.Fatalf("could not create manager: %v", err)
 	}
 
 	err = routes.InitRoutes(m)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
-	http.ListenAndServe(manager.PORT, m.R)
+	m.L.Printf("Running on Port %s", m.Port)
+	err = http.ListenAndServe(m.Port, m.R)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
-
