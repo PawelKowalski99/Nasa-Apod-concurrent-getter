@@ -1,11 +1,10 @@
-module github.com/gogoapps
+module github.com/PawelKowalski99/gogapps
 
 go 1.18
 
 require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-chi/render v1.0.2
-	github.com/joho/godotenv v1.4.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/tidwall/gjson v1.14.2
 	storj.io/common v0.0.0-20220802175255-aae0c09ec9d4
