@@ -5,7 +5,7 @@
 ## Usage
 **Docker usage**
   * ```docker build -t gogoapps .```
-  * ```docker run -p 8080:8080 --env-file .env -p (type_here_port_from_env_file):(type_here_port_from_env_file) gogoapps```
+  * ```docker run --env-file .env -p (type_here_port_from_env_file):(type_here_port_from_env_file) gogoapps```
     
     
 ## Solution description
