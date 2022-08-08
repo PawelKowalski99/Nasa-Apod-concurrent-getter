@@ -48,7 +48,6 @@ func (n *Nasa) GetPictures(ctx context.Context) http.HandlerFunc {
 		var to = time.Now()
 		var daysDiff = 0
 
-		fmt.Println("reqQuery ", reqQuery)
 
 		// Parse query dates
 		if fromTimeString != "" && toTimeString != "" {
