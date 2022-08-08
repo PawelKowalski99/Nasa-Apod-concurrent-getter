@@ -17,7 +17,6 @@ func GetValidJsonField(json string, query map[string][]string, field string) str
 			queryCounter++
 		}
 	}
-	fmt.Println(queryCounter)
 	if queryCounter == len(query) {
 		return gjson.Get(json, field).String()
 	}
