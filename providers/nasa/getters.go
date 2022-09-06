@@ -16,6 +16,7 @@ import (
 
 const (
 	urlKey = "url"
+	APODURL = "https://api.nasa.gov/planetary/apod"
 )
 
 func (n *Nasa) GetPictures(ctx context.Context) http.HandlerFunc {
@@ -72,7 +73,7 @@ func (n *Nasa) GetPictures(ctx context.Context) http.HandlerFunc {
 }
 
 func (n *Nasa) apodRequest(ctx context.Context, w http.ResponseWriter, r *http.Request, date string,  pictures *helpers.SafeStringSlice) {
-	req, err := http.NewRequestWithContext(ctx, "GET", fmt.Sprintf("https://api.nasa.gov/planetary/apod"), nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, APODURL, nil)
 	if err != nil {
 		logrus.Errorf("could not create request: %v", err)
 		pictures.Write("")
