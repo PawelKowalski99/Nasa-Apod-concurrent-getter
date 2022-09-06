@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"storj.io/common/sync2"
+	"time"
 )
 
 const (
@@ -39,7 +40,9 @@ func (n *Nasa) GetPictures(ctx context.Context) http.HandlerFunc {
 			apodTime := helper.AddDaysToDate(from, day)
 
 			started := lim.Go(ctx, func() {
-				n.apodRequest(ctx, w, r, apodTime, &helper.Pictures)
+				timeCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
+				defer cancel()
+				n.apodRequest(timeCtx, w, r, apodTime, &helper.Pictures)
 			})
 			if !started {
 				err = render.Render(w, r, responses.NewErrResponse(fmt.Sprintf("could not run concurrently"), http.StatusInternalServerError))

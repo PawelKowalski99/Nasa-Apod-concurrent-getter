@@ -1,7 +1,7 @@
 package helpers_test
 
 import (
-	helpers2 "github.com/PawelKowalski99/gogapps/providers/nasa/helpers"
+	"github.com/PawelKowalski99/gogapps/providers/nasa/helpers"
 	"os"
 	"testing"
 )
@@ -11,6 +11,10 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetValidJsonField(t *testing.T) {
+	helper := helpers.GetPictures{
+		Pictures: helpers.InitSafeStringSlice(),
+	}
+
 	type In struct {
 		json        string
 		queryValues map[string][]string
@@ -169,7 +173,7 @@ func TestGetValidJsonField(t *testing.T) {
 
 		for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			out := helpers2.GetValidJsonField(tc.in.json, tc.in.queryValues, tc.in.field)
+			out := helper.GetValidJsonField(tc.in.json, tc.in.queryValues, tc.in.field)
 
 			if out != tc.expOut {
 				t.Errorf("want: %s, got: %s", tc.expOut, out)

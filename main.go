@@ -15,7 +15,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	s, err := server.New(c)
+	s, err := server.Init(c)
 	if err != nil {
 		logrus.Fatalf("could not create server: %v", err)
 	}

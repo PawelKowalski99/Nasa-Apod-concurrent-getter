@@ -30,17 +30,14 @@ func Init() (*Config, error) {
 	viper.SetDefault(EnvConcurrentRequests, ConcurrentRequests)
 
 	viper.SetConfigFile(".env")
-	err := viper.ReadInConfig()
-	if err != nil {
-		return nil, err
-	}
+	_ = viper.ReadInConfig()
 
 	return &Config{
 		Port:               viper.GetString(EnvPort),
 		ConcurrentRequests: viper.GetInt(EnvConcurrentRequests),
 		ApiKey:             viper.GetString(EnvApiKey),
 		Provider:           viper.GetString(EnvProvider),
-	}, err
+	}, nil
 }
 
 func (c Config) GetPort() string {

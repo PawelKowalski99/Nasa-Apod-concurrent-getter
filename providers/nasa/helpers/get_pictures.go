@@ -1,7 +1,6 @@
 package helpers
 
 import (
-	"fmt"
 	"github.com/PawelKowalski99/gogapps/providers/nasa/responses"
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
@@ -15,7 +14,8 @@ import (
 )
 
 const (
-	timeLayout    = "2006-01-02"
+	timeLayout = "2006-01-02"
+	hoursInDay = 24
 )
 
 type GetPictures struct {
@@ -53,7 +53,7 @@ func (n *GetPictures) GetTimeRanges(w http.ResponseWriter, r *http.Request, from
 
 		// Get days counter
 		hoursDiff := to.Sub(from).Hours()
-		daysDiff = int(math.Floor(hoursDiff / 24))
+		daysDiff = int(math.Floor(hoursDiff / hoursInDay))
 
 		// Check if from is before to
 		if daysDiff < 0 {
@@ -84,7 +84,7 @@ func (n *GetPictures) GetValidJsonField(json string, query map[string][]string, 
 			queryCounter++
 		}
 	}
-	fmt.Println(queryCounter)
+
 	if queryCounter == len(query) {
 		return gjson.Get(json, field).String()
 	}

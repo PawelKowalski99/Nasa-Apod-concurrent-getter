@@ -21,7 +21,7 @@ type Server struct {
 	R        chi.Router
 }
 
-func New(c *config.Config) (*Server, error) {
+func Init(c *config.Config) (*Server, error) {
 	m := &Server{
 		Config: c,
 	}
