@@ -1,28 +1,27 @@
 package main
 
 import (
+	config "github.com/PawelKowalski99/gogapps/config"
 	"log"
 	"net/http"
 
-	"github.com/PawelKowalski99/gogapps/manager"
-	"github.com/PawelKowalski99/gogapps/routes"
-
+	"github.com/PawelKowalski99/gogapps/server"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	m, err := manager.NewManager()
-	if err != nil {
-		logrus.Fatalf("could not create manager: %v", err)
-	}
-
-	err = routes.InitRoutes(m)
+	c, err := config.Init()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	m.L.Printf("Running on Port %s", m.Port)
-	err = http.ListenAndServe(m.Port, m.R)
+	s, err := server.New(c)
+	if err != nil {
+		logrus.Fatalf("could not create server: %v", err)
+	}
+
+	logrus.Infof("Listening on port: %s", s.Config.GetPort())
+	err = http.ListenAndServe(":"+s.Config.GetPort(), s.R)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

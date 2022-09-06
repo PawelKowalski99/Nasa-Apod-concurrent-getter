@@ -1,7 +1,7 @@
 package helpers_test
 
 import (
-	"github.com/PawelKowalski99/gogapps/helpers"
+	helpers2 "github.com/PawelKowalski99/gogapps/providers/nasa/helpers"
 	"os"
 	"testing"
 )
@@ -169,7 +169,7 @@ func TestGetValidJsonField(t *testing.T) {
 
 		for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			out := helpers.GetValidJsonField(tc.in.json, tc.in.queryValues, tc.in.field)
+			out := helpers2.GetValidJsonField(tc.in.json, tc.in.queryValues, tc.in.field)
 
 			if out != tc.expOut {
 				t.Errorf("want: %s, got: %s", tc.expOut, out)
