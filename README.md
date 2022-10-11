@@ -1,4 +1,4 @@
-# Gogoapps recruitment task - Golang Developer
+# Nasa Apod concurrent getter
 
 ##Code author: Paweł Kowalski
 
